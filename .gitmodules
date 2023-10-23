@@ -1,0 +1,6 @@
+[submodule "ffmpeg-win64-shared"]
+	path = ffmpeg-win64-shared
+	url = https://github.com/janm31415/ffmpeg-win64-shared
+[submodule "jtk"]
+	path = jtk
+	url = https://github.com/janm31415/jtk
