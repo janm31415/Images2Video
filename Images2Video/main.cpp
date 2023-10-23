@@ -90,6 +90,8 @@ app_options process_options(const std::vector<std::string>& ops)
       options.image_extension = std::string("bmp");
     if (s == std::string("-jpg"))
       options.image_extension = std::string("jpg");
+    if (s == std::string("-jpeg"))
+      options.image_extension = std::string("jpeg");
     }
   return options;
   }
@@ -131,7 +133,7 @@ int main(int argc, char** argv)
   if (argc < 3)
     {
     std::cout << "Usage: Images2Video <images folder> <video file> [options]" << std::endl;
-    std::cout << "  [options] = -png | -bmp | -jpg";
+    std::cout << "  [options] = -png | -bmp | -jpg | -jpeg";
     }
   else
     {
