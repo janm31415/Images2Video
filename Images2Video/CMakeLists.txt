@@ -1,6 +1,15 @@
 if (WIN32)
   set(FFMPEG_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../ffmpeg-win64-shared/include)
-  add_definitions(-D_FFMPEG_SUPPORTED)
+  list(APPEND FFMPEG_LIBRARIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/../ffmpeg-win64-shared/lib/avcodec.lib
+    #${CMAKE_CURRENT_SOURCE_DIR}/../ffmpeg-win64-shared/lib/avdevice.lib 
+    #${CMAKE_CURRENT_SOURCE_DIR}/../ffmpeg-win64-shared/lib/avfilter.lib
+    ${CMAKE_CURRENT_SOURCE_DIR}/../ffmpeg-win64-shared/lib/avformat.lib 
+    ${CMAKE_CURRENT_SOURCE_DIR}/../ffmpeg-win64-shared/lib/avutil.lib 
+    #${CMAKE_CURRENT_SOURCE_DIR}/../ffmpeg-win64-shared/lib/postproc.lib 
+    #${CMAKE_CURRENT_SOURCE_DIR}/../ffmpeg-win64-shared/lib/swresample.lib 
+    ${CMAKE_CURRENT_SOURCE_DIR}/../ffmpeg-win64-shared/lib/swscale.lib 
+  )
 endif (WIN32)
 
 if (UNIX)
@@ -9,7 +18,6 @@ if (UNIX)
     set(FFMPEG_INCLUDE_DIR /opt/homebrew/Cellar/ffmpeg/6.0_1/include)
     list(APPEND FFMPEG_LIBRARIES
     avcodec avformat avutil swscale)
-    add_definitions(-D_FFMPEG_SUPPORTED)
   else(APPLE)
   endif(APPLE)
 endif (UNIX)
@@ -21,10 +29,14 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../stb/stb_image_write.h
 
 
 set(HDRS
+image.h
+video_writer.h
     )
 	
 set(SRCS
+image.cpp
 main.cpp
+video_writer.cpp
 )
 
 if (WIN32)

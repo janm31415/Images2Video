@@ -5,35 +5,9 @@
 #define JTK_FILE_UTILS_IMPLEMENTATION
 #include "jtk/file_utils.h"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb/stb_image.h"
+#include "image.h"
+#include "video_writer.h"
 
-struct image
-  {  
-  int w = 0;
-  int h = 0;
-  int nr_of_channels = 0;
-  unsigned char* im = nullptr;
-  };
-
-image read_image(const std::string& filename)
-  {
-  image im;
-  im.im = stbi_load(filename.c_str(), &im.w, &im.h, &im.nr_of_channels, 4);
-  return im;
-  }
-
-void destroy_image(image& im)
-  {
-  if (im.im)
-    {
-    stbi_image_free(im.im);
-    im.im = nullptr;
-    im.w = 0;
-    im.h = 0;
-    im.nr_of_channels = 0;
-    }
-  }
 
 void sort_all_files_based_on_numbers_in_their_filenames(std::vector<std::string>& files)
   {
@@ -125,6 +99,8 @@ void process(const std::string& images_folder, const std::string& video_file, co
   auto options = process_options(ops);
   auto files = jtk::get_files_from_directory(images_folder, false);
   sort_all_files_based_on_numbers_in_their_filenames(files);
+  int index = 0;
+  VideoWriterState state;
   for (auto& f : files)
     {
     std::string ext = jtk::get_extension(f);
@@ -132,8 +108,22 @@ void process(const std::string& images_folder, const std::string& video_file, co
     if (ext == options.image_extension)
       {
       std::cout << f << std::endl;
+      image im = read_image(f);
+      if (is_valid(im))
+        {
+        if (index == 0)
+          {
+          if (!initialize(state, video_file, im.w, im.h))
+            return;
+          }
+        push_frame(state, im);
+        ++index;
+        destroy_image(im);
+        }
       }
     }
+  finish(state);
+  free(state);
   }
 
 int main(int argc, char** argv)
