@@ -8,7 +8,7 @@ Not tested on Linux, but should be doable to adapt the CMakeLists.txt file to yo
 
 
 
-Usage: Images2Video "images folde>" "video file" "[options]"
+Usage: Images2Video "images folder" "video file" "[options]"
 
 The images in the images folder are expected to have a number in their filename. The files will be sorted according to the number they contain. So ideally you have a folder with image names im0.png, im1.png, ..., im3500.png, ... .
 
